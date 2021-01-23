@@ -1,0 +1,6 @@
+emsdk install latest
+./emsdk activate latest
+source ./emsdk_env.sh
+
+Compile C:
+emcc source.c -s WASM=1 -o source.html
