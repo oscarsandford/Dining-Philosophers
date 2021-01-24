@@ -1,17 +1,11 @@
-out=dining_philosopher
-CC=gcc
-CFLAGS=-lpthread -lrt
+out=wasm/dp.html
+CC=emcc
+EMCC_FLAGS=-s PTHREAD_POOL_SIZE=7 -s WASM=0
 
+all: $(out)
 
-dining_philosopher : dp.o waiter.o
-	$(CC) -o $(out) dp.o waiter.o $(CFLAGS)
-
-dp.o: dp.c waiter.h
-	$(CC) -c dp.c
-
-waiter.o: waiter.c waiter.h
-	$(CC) -c waiter.c
+$(out): dp_asm.c
+	$(CC) dp_asm.c -pthread $(EMCC_FLAGS) -o $(out)
 
 clean:
-	rm *.o
-	rm $(out)
+	cd wasm && rm *
